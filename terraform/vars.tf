@@ -40,7 +40,23 @@ variable "public_route_table_name" {
 }
 
 variable "private_route_table_name" {
-   type = list(string)
+  type = list(string)
+}
+
+variable "aws_iam_role_name" {
+  type = string
+}
+
+variable "eks_role_name" {
+  type = string
+}
+
+variable "eks_cluster_name" {
+  type = string
+}
+
+variable "eks_version" {
+  type = string
 }
 # variable "route_ids" {
 

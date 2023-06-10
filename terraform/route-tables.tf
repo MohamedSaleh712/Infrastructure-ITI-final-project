@@ -28,7 +28,7 @@ resource "aws_route_table" "private_route_table_1" {
     nat_gateway_id = aws_nat_gateway.NAT_gateway_1.id
   }
   tags = {
-    Name= var.private_route_table_name[0]
+    Name = var.private_route_table_name[0]
   }
 }
 
@@ -38,8 +38,8 @@ resource "aws_route_table" "private_route_table_2" {
     cidr_block     = var.default_route
     nat_gateway_id = aws_nat_gateway.NAT_gateway_2.id
   }
-   tags = {
-    Name= var.private_route_table_name[1]
+  tags = {
+    Name = var.private_route_table_name[1]
   }
 }
 
