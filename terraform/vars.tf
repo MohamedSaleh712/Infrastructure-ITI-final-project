@@ -19,6 +19,14 @@ variable "igw_name" {
   type = string
 }
 
+variable "public_subnets_vars" {
+  type = map(tuple([string, string]))
+}
+
+variable "private_subnets_vars" {
+  type = map(tuple([string, string]))
+}
+
 variable "nat_name" {
   type = string
 }
