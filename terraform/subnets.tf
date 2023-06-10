@@ -20,7 +20,7 @@ resource "aws_subnet" "private_subnets" {
   cidr_block        = each.value[0]
   availability_zone = each.value[1]
   tags = {
-    Name                              = each.value[1]
+    Name                              = each.key
     "kubernetes.io/cluster/eks"       = "shared"
     "kubernetes.io/role/internal-elb" = 1
   }
