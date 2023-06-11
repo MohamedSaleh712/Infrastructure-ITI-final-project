@@ -61,6 +61,12 @@ resource "aws_eks_node_group" "nodes_general" {
   # Kubernetes version
   version = "1.24"
 
+  remote_access {
+    ec2_ssh_key = 
+    source_security_group_ids = [aws_security_group.eks_security_group.id]
+  }
+
+
   depends_on = [
     aws_iam_role_policy_attachment.amazon_eks_worker_node_policy_general,
     aws_iam_role_policy_attachment.amazon_eks_cni_policy_general,
