@@ -65,3 +65,11 @@ variable "eks_version" {
 # variable "subnet_id_count" {
 
 # }
+
+variable "s3_remote_state_bucket_name" {
+  type = string
+}
+
+variable "dynamodb_remote_state_table_name" {
+  type = string
+}
