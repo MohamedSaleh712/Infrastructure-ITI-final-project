@@ -9,9 +9,10 @@ resource "aws_instance" "jumb_host_ec2" {
     #!/bin/bash
     apt update -y
     apt-add-repository -y ppa:ansible/ansible
-    sudo apt-get -y install ansible
-    sudo apt update
-    sudo apt install python3-boto3
+    apt-get -y install ansible
+    apt update -y
+    apt install python3-boto3 -y
+    apt install awscli -y
 
   EOF
 
@@ -25,7 +26,7 @@ resource "aws_instance" "jumb_host_ec2" {
     destination = "/home/ubuntu/ansible-playbooks"
   }
 
-    provisioner "file" {
+  provisioner "file" {
     source      = "../my-keypair.pem"
     destination = "/home/ubuntu/key"
   }
@@ -36,6 +37,11 @@ resource "aws_instance" "jumb_host_ec2" {
     private_key = file("../my-keypair.pem")
     host        = self.public_ip
   }
+
+  depends_on = [
+    aws_eks_node_group.nodes_general,
+    aws_eks_cluster.eks
+  ]
 
   tags = {
     Name = "jumb_host"
@@ -95,7 +101,12 @@ resource "aws_security_group" "eks_security_group" {
     protocol    = "tcp"
     cidr_blocks = [var.default_route]
   }
-
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = [var.default_route]
+  }
   egress {
     from_port   = 0
     to_port     = 0

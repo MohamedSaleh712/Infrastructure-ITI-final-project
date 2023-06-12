@@ -33,6 +33,11 @@ resource "aws_iam_role_policy_attachment" "amazon_ec2_container_registry_read_on
   role       = aws_iam_role.nodes_general.name
 }
 
+resource "aws_iam_role_policy_attachment" "amazon_eks_AmazonEKSClusterPolicy" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
+  role       = aws_iam_role.nodes_general.name
+}
+
 resource "aws_eks_node_group" "nodes_general" {
   cluster_name    = aws_eks_cluster.eks.name
   node_group_name = "nodes-general"
@@ -62,7 +67,7 @@ resource "aws_eks_node_group" "nodes_general" {
   version = "1.24"
 
   remote_access {
-    ec2_ssh_key = 
+    ec2_ssh_key               = "my-keypair"
     source_security_group_ids = [aws_security_group.eks_security_group.id]
   }
 
@@ -71,5 +76,6 @@ resource "aws_eks_node_group" "nodes_general" {
     aws_iam_role_policy_attachment.amazon_eks_worker_node_policy_general,
     aws_iam_role_policy_attachment.amazon_eks_cni_policy_general,
     aws_iam_role_policy_attachment.amazon_ec2_container_registry_read_only,
+    aws_iam_role_policy_attachment.amazon_eks_AmazonEKSClusterPolicy
   ]
 }

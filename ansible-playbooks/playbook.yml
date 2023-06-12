@@ -1,0 +1,9 @@
+---
+- name: install jenkins on k8s cluster on EKS
+  hosts: all
+  gathering_facts: false
+  tasks:
+    - name: Create a Deployment by reading the definition from a local file
+      k8s:
+        state: present
+        src: ../jenkins-deployment

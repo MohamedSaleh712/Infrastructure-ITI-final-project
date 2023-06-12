@@ -20,7 +20,7 @@ spec:
         fsGroup: 1000 
         runAsUser: 0
       containers:
-      - image: jenkins/jenkins:lts-jdk11
+      - image: 712199425/jenkins:latest
         imagePullPolicy: IfNotPresent
         name: jenkins            
         ports:

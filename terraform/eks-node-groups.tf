@@ -28,6 +28,11 @@ resource "aws_eks_cluster" "eks" {
   role_arn = aws_iam_role.eks_cluster.arn
   version  = var.eks_version
 
+  # remote_access {
+  #   ec2_ssh_key               = "my-keypair.pem"
+  #   source_security_group_ids = [aws_security_group.eks_security_group.id]
+  # }
+
   vpc_config {
     endpoint_private_access = false
     endpoint_public_access  = true
