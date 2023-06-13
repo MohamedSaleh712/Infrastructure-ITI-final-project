@@ -7,9 +7,9 @@ resource "aws_subnet" "public_subnets" {
   availability_zone       = each.value[1]
   map_public_ip_on_launch = true
   tags = {
-    Name                              = each.key
-    "kubernetes.io/cluster/eks"       = "shared"
-    "kubernetes.io/role/internal-elb" = 1
+    Name                                          = each.key
+    "kubernetes.io/cluster/eks-iti-final-project" = "shared"
+    "kubernetes.io/role/elb"                      = 1
   }
 }
 
@@ -20,8 +20,8 @@ resource "aws_subnet" "private_subnets" {
   cidr_block        = each.value[0]
   availability_zone = each.value[1]
   tags = {
-    Name                              = each.key
-    "kubernetes.io/cluster/eks"       = "shared"
-    "kubernetes.io/role/internal-elb" = 1
+    Name                                          = each.key
+    "kubernetes.io/cluster/eks-iti-final-project" = "shared"
+    "kubernetes.io/role/internal-elb"             = 1
   }
 }

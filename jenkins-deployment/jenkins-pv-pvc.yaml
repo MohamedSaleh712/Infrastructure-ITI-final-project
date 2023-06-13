@@ -1,26 +1,29 @@
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: pv-jenkins
-  namespace: jenkins
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 8Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/jenkins/jenkins-home"
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: claim-jenkins
-  namespace: jenkins
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 8Gi
+# kind: PersistentVolume
+# apiVersion: v1
+# metadata:
+#   name: pv-jenkins
+#   namespace: jenkins-ns
+# spec:
+#   capacity:
+#     storage: 3Gi
+#   accessModes:
+#     - ReadWriteOnce
+#   # hostPath:
+#     # path: "/mnt/data/jenkins_home"
+#   persistentVolumeReclaimPolicy: Retain
+#   storageClassName: ""
+#   awsElasticBlockStore:
+#     volumeID: "iti-final-project-volume-jenkins"
+#     fsType: ext4
+# ---
+# kind: PersistentVolumeClaim
+# apiVersion: v1
+# metadata:
+#   name: claim-jenkins
+#   namespace: jenkins-ns
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   resources:
+#     requests:
+#       storage: 3Gi

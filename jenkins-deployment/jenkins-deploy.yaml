@@ -1,13 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    app: jenkins
   name: jenkins
   namespace: jenkins-ns
+  labels:
+    app: jenkins
 spec:
   replicas: 1
-  revisionHistoryLimit: 10
   selector:
     matchLabels:
       app: jenkins
@@ -16,38 +15,40 @@ spec:
       labels:
         app: jenkins
     spec:
-      securityContext:
-        fsGroup: 1000 
-        runAsUser: 0
+      serviceAccountName: jenkins-admin
+      # initContainers:
+      # - name: install-docker
+      #   image: docker:stable
+      #   command: ["cp", "/usr/local/bin/docker", "/data/docker"]    
+      #   volumeMounts:
+      #   - name: docker
+      #     mountPath: "/data"
       containers:
-      - image: 712199425/jenkins:latest
-        imagePullPolicy: IfNotPresent
-        name: jenkins            
-        ports:
-        - containerPort: 8080
-          protocol: TCP
-        - containerPort: 50000
-          protocol: TCP
-        readinessProbe:
-          failureThreshold: 5
-          httpGet:
-            path: /login
-            port: 8080
-            scheme: HTTP
-          periodSeconds: 10
-          successThreshold: 2
-          timeoutSeconds: 5
-        resources: {}
-        terminationMessagePath: /dev/termination-log
-        terminationMessagePolicy: File
-        volumeMounts:
-        - name: data-disk
-          mountPath: /var/jenkins_home
-      dnsPolicy: ClusterFirst
-      restartPolicy: Always
-      schedulerName: default-scheduler
-      terminationGracePeriodSeconds: 30
+        - name: jenkins
+          image: docker.io/712199425/jenkins:latest
+          ports:
+            - containerPort: 8080
+          # securityContext:  # Add securityContext for the container
+          #   runAsUser: 0  # Run as root user
+          volumeMounts:
+          - name: jenkins-vol
+            mountPath: /var/jenkins_home
+          # - name: "docker"
+          #   mountPath: "/usr/local/bin/docker"
+          # - name: kubectl
+          #   subPath: "kubectl"
+          #   mountPath: "/usr/local/bin/kubectl"
+          - name: docker
+            mountPath: "/var/run/docker.sock"  
       volumes:
-      - name: data-disk
-        persistentVolumeClaim:
-          claimName: claim-jenkins
+        - name: jenkins-vol
+          emptyDir: {}
+        # - name: docker
+        #   emptyDir: {}
+        - name: docker
+          hostPath:
+            path: /var/run/docker.sock
+        #     type: ""
+        # - name: kubectl
+        #   emptyDir: {}
+        

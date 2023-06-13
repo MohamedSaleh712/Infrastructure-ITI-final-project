@@ -5,7 +5,7 @@ resource "aws_s3_bucket" "s3_remote_state" {
     prevent_destroy = true
   }
   tags = {
-    name = var.s3_remote_state_bucket_name
+    Name = var.s3_remote_state_bucket_name
   }
 }
 

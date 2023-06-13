@@ -64,7 +64,7 @@ resource "aws_eks_node_group" "nodes_general" {
   }
 
   # Kubernetes version
-  version = "1.24"
+  version = "1.23"
 
   remote_access {
     ec2_ssh_key               = "my-keypair"
